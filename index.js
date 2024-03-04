@@ -21,7 +21,7 @@ function commitAndPushChanges() {
             }
 
             // Push to the remote repository
-            exec('git push origin master', (error, stdout, stderr) => {
+            exec('git push origin main', (error, stdout, stderr) => {
                 if (error) {
                     console.error(`Error pushing changes: ${error.message}`);
                     return;
