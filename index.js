@@ -1,8 +1,10 @@
 const { exec } = require('child_process');
+const fs = require('fs');
 
-function commitChanges() {
-    // Make changes to your files here if needed
-    // e.g., use fs module to write to a file
+function commitAndPushChanges() {
+    const fileName = 'example.txt';
+    const newContent = `New content at ${new Date()}`;
+    fs.writeFileSync(fileName, newContent);
 
     // Add all changes
     exec('git add .', (error, stdout, stderr) => {
@@ -18,10 +20,18 @@ function commitChanges() {
                 return;
             }
 
-            console.log('Changes committed successfully.');
+            // Push to the remote repository
+            exec('git push origin master', (error, stdout, stderr) => {
+                if (error) {
+                    console.error(`Error pushing changes: ${error.message}`);
+                    return;
+                }
+
+                console.log('Changes committed and pushed successfully.');
+            });
         });
     });
 }
 
-// Commit changes every 30 seconds
-setInterval(commitChanges, 30000);
+// Commit and push changes every 30 seconds
+setInterval(commitAndPushChanges, 30000);
