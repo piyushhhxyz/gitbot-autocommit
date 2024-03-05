@@ -6,7 +6,6 @@ function commitAndPushChanges() {
     const newContent = `New content at ${new Date()}`;
     fs.writeFileSync(fileName, newContent);
 
-    // Add all changes
     exec('git add .', (error, stdout, stderr) => {
         if (error) {
             console.error(`Error adding changes: ${error.message}`);
@@ -33,5 +32,32 @@ function commitAndPushChanges() {
     });
 }
 
-// Commit and push changes every 30 seconds
-setInterval(commitAndPushChanges, 30000);
+function getRandomTime() {
+    return Math.floor(Math.random() * 24 * 60 * 60 * 1000);
+}
+
+function scheduleRandomCommit() {
+    const timeUntilNextCommit = getRandomTime();
+
+    console.log(`Step: Commit scheduled`);
+    console.log(`Random time selected: ${timeUntilNextCommit / (60 * 1000)} minutes`);
+
+    const intervalId = setInterval(() => {
+        const remainingTime = timeUntilNextCommit - Date.now();
+        const remainingMinutes = Math.ceil(remainingTime / (60 * 1000));
+
+        console.clear(); // Clear console for a cleaner display
+        console.log(`Step: Commit scheduled`);
+        console.log(`Random time selected: ${timeUntilNextCommit / (60 * 1000)} minutes`);
+        console.log(`Remaining time until next commit: ${remainingMinutes} minutes`);
+
+        if (remainingTime <= 0) {
+            clearInterval(intervalId);
+            commitAndPushChanges();
+            console.log(`Step: Commit executed`);
+            scheduleRandomCommit();
+        }
+    }, 1000);
+}
+
+scheduleRandomCommit();
