@@ -6,6 +6,7 @@ function commitAndPushChanges() {
     const newContent = `New content at ${new Date()}`;
     fs.writeFileSync(fileName, newContent);
 
+    // Add all changes
     exec('git add .', (error, stdout, stderr) => {
         if (error) {
             console.error(`Error adding changes: ${error.message}`);
