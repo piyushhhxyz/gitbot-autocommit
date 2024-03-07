@@ -34,7 +34,18 @@ function commitAndPushChanges() {
 }
 
 function getRandomTime() {
-    return Math.floor(Math.random() * 24 * 60 * 60 * 1000);
+    // Get a random time between 0:00 and 23:59
+    const randomHour = Math.floor(Math.random() * 24);
+    const randomMinute = Math.floor(Math.random() * 60);
+
+    // Set the random time for today
+    const today = new Date();
+    today.setHours(randomHour, randomMinute, 0, 0);
+
+    // Calculate the time until the next commit
+    const timeUntilNextCommit = today.getTime() - Date.now();
+
+    return timeUntilNextCommit;
 }
 
 function scheduleRandomCommit() {
